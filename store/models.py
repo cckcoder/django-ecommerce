@@ -22,7 +22,8 @@ class Product(models.Model):
         User, related_name="product_creator", on_delete=models.CASCADE
     )
 
-    title = models.CharField(max_length=255, default="admin")
+    title = models.CharField(max_length=255)
+    author = models.CharField(max_length=255, default="admin")
     description = models.TextField(blank=True)
     image = models.ImageField(upload_to="images/")
     slug = models.SlugField(max_length=255)
