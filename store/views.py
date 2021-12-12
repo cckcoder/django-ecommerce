@@ -23,3 +23,10 @@ class ProductDetailView(DetailView):
     def get_queryset(self, **kwargs):
         slug = self.kwargs.get("slug")
         return Product.objects.filter(slug=slug).filter(in_stock=True)
+
+
+def category_list(request, category_slug=None):
+    category = get_object_or_404(Category, slug=category_slug)
+    products = Product.objects.filter(category=category)
+    context = {"category": category, "products": products}
+    return render(request, "store/products/category.html", context=context)
