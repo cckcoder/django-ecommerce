@@ -37,6 +37,12 @@ class TestViewResponses(TestCase):
         response = self.c.get(reverse("store:category_list", args=["django"]))
         self.assertEqual(response.status_code, 200)
 
+    def test_url_allowed_hosts(self):
+        resp = self.c.get("/", HTTP_HOST="noaddress.com")
+        self.assertEqual(resp.status_code, 400)
+        resp = self.c.get("/", HTTP_HOST="yourdomain.com")
+        self.assertEqual(resp.status_code, 200)
+
     def test_homepage_html(self):
         response = self.c.get("")
         html = response.content.decode("utf8")

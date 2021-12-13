@@ -8,7 +8,7 @@ SECRET_KEY = "django-insecure-a@boj1q-jt8e)rh7tkvq$xs0cy^*qhn#e-rkxt6n#5$5bc#u%)
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1", "yourdomain.com"]
 
 
 INSTALLED_APPS = [
@@ -44,7 +44,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                "store.views.categories",
+                "store.context_processors.categories",
             ],
         },
     },
@@ -77,7 +77,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-
 LANGUAGE_CODE = "en-us"
 
 TIME_ZONE = "UTC"
@@ -85,7 +84,6 @@ TIME_ZONE = "UTC"
 USE_I18N = True
 
 USE_TZ = True
-
 
 
 STATIC_URL = "static/"
