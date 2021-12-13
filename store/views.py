@@ -13,7 +13,7 @@ class AllProductListView(ListView):
     template_name = "store/home.html"
 
     def get_queryset(self):
-        return Product.objects.all()
+        return Product.products.all()
 
 
 class ProductDetailView(DetailView):
