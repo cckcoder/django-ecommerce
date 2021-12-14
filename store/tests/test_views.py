@@ -14,7 +14,7 @@ class TestViewResponses(TestCase):
         self.factory = RequestFactory()
         User.objects.create(username="admin")
         Category.objects.create(name="django", slug="django")
-        Product.objects.create(
+        Product.object.create(
             category_id=1,
             title="django beginners",
             created_by_id=1,
@@ -46,7 +46,7 @@ class TestViewResponses(TestCase):
     def test_homepage_html(self):
         response = self.c.get("")
         html = response.content.decode("utf8")
-        self.assertIn("<title>Home</title>", html)
+        self.assertIn("<title>BookStore</title>", html)
         self.assertEqual(response.status_code, 200)
 
     # def test_view_function(self):
