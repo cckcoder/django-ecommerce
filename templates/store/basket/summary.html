@@ -46,6 +46,7 @@ Basket Summary
                   Update
                 </button>
                 <button type="button" id="delete-button"
+                  value="{{product.id}}"
                   class="btn btn-outline-secondary btn-sm delete-button">
                   Delete
                 </button>
@@ -70,7 +71,7 @@ Basket Summary
 <script>
     $(document).on('click', '#delete-button', (e) => {
         e.preventDefault();
-        prodId = $('#add-button').val();
+        prodId = $('#delete-button').val();
         $.ajax({
             type: 'POST',
             url: '{% url "basket:basket_delete" %}',

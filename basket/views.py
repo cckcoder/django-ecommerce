@@ -1,3 +1,4 @@
+from django.http import request
 from django.http.response import JsonResponse
 from django.shortcuts import get_object_or_404, render
 
@@ -21,3 +22,10 @@ def basket_add(request):
 
         return JsonResponse({"product_qty": basket_qty})
 
+def basket_delete(request):
+    basket = Basket(request)
+    if request.POST.get('action') == 'post':
+        product_id = int(request.POST.get("product_id"))
+        basket.delete(product_id=product_id)
+
+        return JsonResponse({'success': True})
