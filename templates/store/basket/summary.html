@@ -11,7 +11,7 @@ Basket Summary
     <h1 class="h5">Shopping basket</h1>
     {% for item in basket %}
     {% with product=item.product %}
-    <div class="row mb-4 border product-item">
+    <div data-index="{{product.id}}" class="row mb-4 border product-item">
       <div class="col-md-3 col-lg-2 order-md-first bg-light">
         <img class="img-fluid mx-auto d-block" width="120px" alt="Responsive image" src="{{ product.image.url }}">
       </div>
@@ -45,9 +45,12 @@ Basket Summary
                   class="btn btn-outline-secondary btn-sm update-button">
                   Update
                 </button>
-                <button type="button" id="delete-button"
-                  value="{{product.id}}"
-                  class="btn btn-outline-secondary btn-sm delete-button">
+                <button 
+                  type="button" 
+                  id="delete-button"
+                  data-index="{{product.id}}"
+                  class="btn btn-outline-secondary btn-sm delete-button"
+                >
                   Delete
                 </button>
               </div>
@@ -69,18 +72,20 @@ Basket Summary
 </main>
 
 <script>
-    $(document).on('click', '#delete-button', (e) => {
+    $(document).on('click', '.delete-button', function (e) {
         e.preventDefault();
-        prodId = $('#delete-button').val();
+        let productId = $(this).data('index')
         $.ajax({
             type: 'POST',
             url: '{% url "basket:basket_delete" %}',
             data: {
-                product_id: prodId,
+                product_id: productId,
                 csrfmiddlewaretoken: "{{csrf_token}}",
                 action: 'post',
             },
-            success: (jsonResp) => {},
+            success: (jsonResp) => {
+                $(`.product-item[data-index="${productId}"]`).remove()
+            },
             error: (xhr, errMsg, err) => {}
         });
     });
