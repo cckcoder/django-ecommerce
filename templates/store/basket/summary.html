@@ -24,7 +24,7 @@ Basket Summary
             <div class="row p-3">
               <div class="col-6">Hardback Book</div>
               <div class="col-6 text-end">
-                <span class="h6 fw-bold">${{ item.total_price }}</span>
+                <span class="h6 fw-bold">${{ product.price }}</span>
               </div>
             </div>
           </div>
@@ -41,15 +41,19 @@ Basket Summary
                   <option value="">3</option>
                   <option value="">4</option>
                 </select>
-                <button type="button" id="update-button"
-                  class="btn btn-outline-secondary btn-sm update-button">
+                <button 
+                  class="btn btn-outline-secondary btn-sm update-button"
+                  type="button" 
+                  id="update-button"
+                  data-index="{{product.id}}"
+                >
                   Update
                 </button>
                 <button 
+                  class="btn btn-outline-secondary btn-sm delete-button"
                   type="button" 
                   id="delete-button"
                   data-index="{{product.id}}"
-                  class="btn btn-outline-secondary btn-sm delete-button"
                 >
                   Delete
                 </button>
@@ -72,6 +76,7 @@ Basket Summary
 </main>
 
 <script>
+    // Delete
     $(document).on('click', '.delete-button', function (e) {
         e.preventDefault();
         let productId = $(this).data('index')
@@ -85,6 +90,31 @@ Basket Summary
             },
             success: (jsonResp) => {
                 $(`.product-item[data-index="${productId}"]`).remove()
+                document.getElementById("basket-qty").innerHTML = jsonResp.basket_qty
+                document.getElementById("subtotal").innerHTML = jsonResp.sub_total_price
+            },
+            error: (xhr, errMsg, err) => {}
+        });
+    });
+
+    // update
+    $(document).on('click', '.update-button', function (e) {
+        e.preventDefault();
+        let productId = $(this).data('index')
+        let productQty = $(`#select${productId} option:selected`).text();
+        console.log(productQty)
+        $.ajax({
+            type: 'POST',
+            url: '{% url "basket:basket_update" %}',
+            data: {
+                product_id: productId,
+                product_qty: productQty,
+                csrfmiddlewaretoken: "{{csrf_token}}",
+                action: 'post',
+            },
+            success: (jsonResp) => {
+                document.getElementById("basket-qty").innerHTML = jsonResp.basket_qty
+                document.getElementById("subtotal").innerHTML = jsonResp.sub_total_price
             },
             error: (xhr, errMsg, err) => {}
         });

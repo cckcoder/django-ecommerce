@@ -1,6 +1,7 @@
 from store.models import Product
 from decimal import Decimal
 
+
 class Basket:
     def __init__(self, request):
         self.session = request.session
@@ -11,9 +12,11 @@ class Basket:
         self.basket = basket
 
     def add(self, product, product_qty):
-        product_id = product.id
+        product_id = str(product.id)
 
-        if product_id not in self.basket:
+        if product_id in self.basket:
+            self.basket[product_id]["product_qty"] = product_qty
+        else:
             self.basket[product_id] = {
                 "price": str(product.price),
                 "product_qty": int(product_qty),
@@ -30,11 +33,11 @@ class Basket:
         basket = self.basket.copy()
 
         for product in products:
-            basket[str(product.id)]['product'] = product
+            basket[str(product.id)]["product"] = product
 
         for item in basket.values():
-            item['price'] = Decimal(item['price'])
-            item['total_price'] = item['price'] * item['product_qty']
+            item["price"] = Decimal(item["price"])
+            item["total_price"] = item["price"] * item["product_qty"]
             yield item
 
     def __len__(self):
@@ -44,8 +47,10 @@ class Basket:
         return sum(item["product_qty"] for item in self.basket.values())
 
     def get_total_price(self):
-        return sum(Decimal(item['total_price']) for item in self.basket.values())
-
+        return sum(
+            Decimal(item["price"]) * item["product_qty"]
+            for item in self.basket.values()
+        )
 
     def delete(self, product_id):
         """
@@ -53,10 +58,20 @@ class Basket:
         """
         product_id = str(product_id)
         if product_id in self.basket:
-            del self.basket[product_id]  
+            del self.basket[product_id]
 
         self.save()
-        
+
+    def update(self, product_id, product_qty):
+        """
+        Update item from session data
+        """
+        product_id = str(product_id)
+        product_qty = product_qty
+
+        if product_id in self.basket:
+            self.basket[product_id]["product_qty"] = product_qty
+        self.save()
 
     def save(self):
         self.session.modified = True
