@@ -1,8 +1,10 @@
+from django.http.request import HttpRequest
 from django.test import TestCase
 from django.contrib.auth.models import User
 from django.test import Client
 from django.test.client import RequestFactory
 from django.urls import reverse
+from django.views.generic import ListView
 
 from store.models import *
 from store.views import *
@@ -47,6 +49,7 @@ class TestViewResponses(TestCase):
         response = self.c.get("")
         html = response.content.decode("utf8")
         self.assertIn("<title>BookStore</title>", html)
+        self.assertTrue(html.startswith('\n<!DOCTYPE html>\n'))
         self.assertEqual(response.status_code, 200)
 
     # def test_view_function(self):
