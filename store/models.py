@@ -1,5 +1,5 @@
+from django.conf import settings
 from django.db import models
-from django.contrib.auth.models import User
 from django.urls import reverse
 
 
@@ -28,7 +28,7 @@ class Product(models.Model):
     )
 
     created_by = models.ForeignKey(
-        User, related_name="product_creator", on_delete=models.CASCADE
+        settings.AUTH_USER_MODEL, related_name="product_creator", on_delete=models.CASCADE
     )
 
     title = models.CharField(max_length=255)
