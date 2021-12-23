@@ -8,7 +8,7 @@ SECRET_KEY = "django-insecure-a@boj1q-jt8e)rh7tkvq$xs0cy^*qhn#e-rkxt6n#5$5bc#u%)
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1", "yourdomain.com"]
+ALLOWED_HOSTS = ["127.0.0.1", "yourdomain.com", "localhost"]
 
 
 INSTALLED_APPS = [
@@ -87,10 +87,9 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 STATIC_URL = "/static/"
 
-STATICFILES_DIR = [os.path.join(BASE_DIR, "static")]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 # Config media folder
 MEDIA_URL = "/media/"

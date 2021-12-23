@@ -7,8 +7,9 @@ from store.models import Product
 
 
 def basket_summary(request):
-    template_name = "store/basket/summary.html"
-    return render(request, template_name)
+    basket = Basket(request)
+    template_name = "basket/summary.html"
+    return render(request, template_name, {"basket": basket})
 
 
 def basket_add(request):
