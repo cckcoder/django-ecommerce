@@ -4,6 +4,7 @@ click==8.0.3
 coverage==6.2
 Django==4.0
 django-countries==7.2.1
+django-extensions==3.1.5
 django-stubs==1.9.0
 django-stubs-ext==0.3.1
 mypy==0.910
