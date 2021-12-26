@@ -25,6 +25,14 @@ urlpatterns = [
     path(
         "activate/<slug:uidb64>/<slug:token>/", views.account_activate, name="activate"
     ),
+    path(
+        "password_reset",
+        auth_views.PasswordResetView.as_view(
+            template_name="account/user/password_reset_form.html",
+            success_url="password_reset_email_confirm",
+            email_template_name="account/user/password_reset_email.html"
+        ),
+    ),
     path("dashboard", views.dashboard, name="dashboard"),
     path("profile/edit/", views.edit_details, name="edit_details"),
     path("profile/delete_user/", views.delete_user, name="delete_user"),
